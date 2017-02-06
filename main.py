@@ -61,7 +61,8 @@ def valid_email(email):
 
 
 class MainHandler(webapp2.RequestHandler):
-    def write_form(self, error_username="", error_password="", errorverify_password="", error_email="", username="", email=""):
+    def write_form(self, error_username="", error_password="", errorverify_password="",
+                    error_email="", username="", email=""):
         self.response.write(form % {"error_username": error_username,
                                     "error_password": error_password,
                                     "errorverify_password": errorverify_password,
@@ -104,12 +105,13 @@ class MainHandler(webapp2.RequestHandler):
                             errorverify_password, error_email,
                             user_name, user_email)
         else:
-            self.redirect("/welcome")
+            username = self.request.get('username')
+            self.redirect('/welcome?username=%s'%username)
 
 class WelcomeHandler(webapp2.RequestHandler):
     def get(self):
-        user_name = self.request.get('username')
-        self.response.write("Welcome, " + user_name + '!')
+        username = self.request.get('username')
+        self.response.write("Welcome, " + username + '!')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),('/welcome', WelcomeHandler)
